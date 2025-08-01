@@ -1,0 +1,9 @@
+[tool.flake8]
+application-import-names = ["src", "database", "events", "settings", "utils", "settings", "registration", "logs", "online_parser", "information_classes", "schemes", "text_extractor", "converters"]
+exclude=["*/migrations/", "__pycache__", "venv", "*/uploads"]
+import-order-style = "google"
+max-complexity = 10
+
+[tool.black]
+line-length = 79
+skip-string-normalization = true
