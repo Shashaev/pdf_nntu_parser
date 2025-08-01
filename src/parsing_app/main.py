@@ -7,7 +7,6 @@ import events
 import logs
 
 
-# database.connection.drop_db()
 database.connection.create_db_and_tables()
 
 while True:

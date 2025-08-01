@@ -160,12 +160,3 @@ class OnlineRPDParser(OnlineChangingParser):
                 print(e)
 
         return rpds
-
-
-if __name__ == '__main__':
-    test_link = (
-        'https://www.nntu.ru/sveden/files/rpd/09.04.02/trps_och/list.php'
-    )
-    parser = OnlineRPDParser('1', test_link)
-    # data = parser.get_data()
-    # print(data)

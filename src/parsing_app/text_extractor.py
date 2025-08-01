@@ -44,14 +44,3 @@ class PDFMinerExtractor(TextExtractor):
             raise ValueError
 
         self.file = file
-
-
-if __name__ == '__main__':
-    pdf_file = 'test.pdf'
-    # text = PDFMinerExtractor(pdf_file).get_text()
-    # with open('PDFMinerExtractor.txt', 'w', encoding='utf-8') as file:
-    #     file.write(text)
-    # text = PyPDF2Extractor(pdf_file).get_text()
-    # path_to_out = settings.path_out_test / f'{pdf_file.stemp}.txt'
-    # with open(path_to_out, 'w', encoding='utf-8') as file:
-    #     file.write(text)
