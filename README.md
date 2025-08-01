@@ -60,7 +60,7 @@ def run(
 ## Запуск проекта
 1. Клонирование репозитория с github
 ```bash
-git clone <link>
+git clone https://github.com/Shashaev/pdf_nntu_parser.git
 ```
 2. Переход в конеть проекта
 ```bash

@@ -1,4 +1,3 @@
-# import events.web_pages
+import events.web_pages
 import events.pdf
-
-# import events.post_processing
+import events.post_processing
