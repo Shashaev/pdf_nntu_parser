@@ -1,11 +1,13 @@
 beautifulsoup4==4.13.4
 black==25.1.0
 colorama==0.4.6
+lxml==6.0.0
 numpy==2.3.1
 pandas==2.3.0
 pdfminer.six==20250506
 pydantic==2.11.7
 PyPDF2==3.0.1
 requests==2.32.4
-SQLAlchemy==2.0.41
+SQLAlchemy==2.0.42
+tabula==1.0.5
 tqdm==4.67.1
