@@ -1,3 +1,5 @@
 import events.pdf.title_page_ep_conversion
 import events.pdf.title_page_rpd
 import events.pdf.row_discipline_table_conversion
+import events.pdf.text_link_block
+import events.pdf.parsing_blocks_of_links
