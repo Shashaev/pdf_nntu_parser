@@ -1,6 +1,6 @@
 data/
 anothe/
-# **/__init__.py
+.env
 
 # https://github.com/github/gitignore/blob/main/Python.gitignore
 

@@ -1,5 +1,10 @@
 import logging
 import time
+import pathlib
+import sys
+
+script_dir = pathlib.Path(__file__).parent.parent
+sys.path.append(str(script_dir))
 
 import database.connection
 import registration
@@ -31,7 +36,7 @@ while True:
             min_delay = min(min_delay, fun.delay_time)
             if not fun.endless_execution:
                 fun.max_count -= 1
-        except BaseException as e:
+        except Exception as e:
             logging.error(e, exc_info=True)
             min_delay = 0
 

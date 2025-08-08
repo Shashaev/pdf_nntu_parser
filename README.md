@@ -56,6 +56,7 @@ def run(
 ## Что нужно для запуска?
 - [Git](https://git-scm.com/downloads)
 - [Python>=3.10](https://www.python.org/downloads/)
+- [Microsoft Visual C++ Redistributable](https://aka.ms/vs/16/release/vc_redist.x64.exe)
 
 ## Запуск проекта
 1. Клонирование репозитория с github

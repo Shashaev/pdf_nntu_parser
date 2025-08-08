@@ -33,8 +33,8 @@ def title_page_ep_conversion():
         rows_discipline_table = []
         try:
             rows_discipline_table = converter.parsing()
-        except BaseException as e:
-            logging.error(e, f'Файл: {pdf_ep.path_pdf}')
+        except Exception as e:
+            logging.error(f'{e}\nФайл: {pdf_ep.path_pdf}')
 
         if len(rows_discipline_table) <= 5:
             logging.error(

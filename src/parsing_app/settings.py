@@ -1,5 +1,10 @@
+import os
 import pathlib
 
+import dotenv
+
+
+dotenv.load_dotenv()
 
 PATH_ROOT = pathlib.Path(__file__).parent
 
@@ -31,3 +36,6 @@ else:
         f'postgresql+asyncpg://{DB_USER}:'
         f'{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}'
     )
+
+API_CATALOG = os.getenv('API_CATALOG')
+API_TOCKEN = os.getenv('API_TOCKEN')

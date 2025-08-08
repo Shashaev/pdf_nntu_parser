@@ -130,6 +130,12 @@ class RPDModel(ModelWithPK):
     description_rpd: orm.Mapped[typing.Optional['DescriptionRPDModel']] = (
         orm.relationship(back_populates='rpd')
     )
+    text_link_block: orm.Mapped[typing.Optional['TextLinkBlockModel']] = (
+        orm.relationship(back_populates='rpd')
+    )
+    links: orm.Mapped[list['LinkRPDModel']] = (
+        orm.relationship(back_populates='rpd')
+    )
 
 
 class PDFRPDModel(ModelWithPK):
@@ -158,3 +164,31 @@ class DescriptionRPDModel(ModelWithPK):
     )
     index: orm.Mapped[str]
     # name: orm.Mapped[str]
+
+
+class TextLinkBlockModel(ModelWithPK):
+    __tablename__ = 'TextLinkBlockModel'
+
+    rpd_id: orm.Mapped[int] = orm.mapped_column(
+        sqlalchemy.ForeignKey('RPDModel.id_model'),
+    )
+    rpd: orm.Mapped[RPDModel] = orm.relationship(
+        'RPDModel',
+        back_populates='text_link_block',
+    )
+    text: orm.Mapped[str]
+
+
+class LinkRPDModel(ModelWithPK):
+    __tablename__ = 'LinkModel'
+
+    rpd_id: orm.Mapped[int] = orm.mapped_column(
+        sqlalchemy.ForeignKey('RPDModel.id_model'),
+    )
+    rpd: orm.Mapped[RPDModel] = orm.relationship(
+        'RPDModel',
+        back_populates='links',
+    )
+    link_type: orm.Mapped[int]
+    link_from: orm.Mapped[str]
+    link_to: orm.Mapped[str]

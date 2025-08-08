@@ -44,7 +44,25 @@ class RowDisciplineTableScheme(pydantic.BaseModel):
     )
     format_control_rgr: str | None = pydantic.Field(min_length=1, default=None)
 
+    class Config:
+        from_attributes = True
+
 
 class DescriptionRPDScheme(pydantic.BaseModel):
     index: str = pydantic.Field(min_length=2, max_length=20)
     # name: str = pydantic.Field(min_length=5)
+
+
+class LinkRPDScheme(pydantic.BaseModel):
+    link_type: typing.Literal[-1, 0, 1]
+    link_from: str = pydantic.Field(min_length=3)
+    link_to: str = pydantic.Field(min_length=3)
+
+    class Config:
+        from_attributes = True
+
+
+class AbstractDescriptionRPDScheme(pydantic.BaseModel):
+    id_model: int = pydantic.Field(ge=0)
+    text_link_block: str | None = pydantic.Field(min_length=10)
+    index: str | None = pydantic.Field(min_length=2)

@@ -2,6 +2,7 @@ import sqlalchemy.orm as orm
 
 import database.models as models
 import database.connection as connection
+import parsing_app.schemes as schemes
 
 
 __all__ = []
@@ -78,12 +79,40 @@ class EducationalProgramDAO(BaseDAO):
             .first()
         )
 
+    @connection.db_connection
+    def get_rpds_by_id_ep(
+        self,
+        id_ep: int,
+        session: orm.Session = None,
+    ) -> list[models.RPDModel]:
+        ep = (
+            session.query(models.EducationalProgramModel)
+            .filter_by(id_model=id_ep)
+            .first()
+        )
+        if ep is None:
+            return None
+
+        return ep.rpds
+
 
 class PDFEducationalProgramDAO(BaseDAO):
     model = models.PDFEducationalProgramModel
 
     def __init__(self):
         super().__init__(self.model)
+
+    @connection.db_connection
+    def get_by_ep_id(
+        self,
+        ep_id: int,
+        session: orm.Session = None,
+    ) -> models.PDFEducationalProgramModel | None:
+        return (
+            session.query(models.PDFEducationalProgramModel)
+            .filter_by(educational_program_id=ep_id)
+            .first()
+        )
 
 
 class RPDDAO(BaseDAO):
@@ -104,6 +133,75 @@ class RPDDAO(BaseDAO):
             .first()
         )
 
+    @connection.db_connection
+    def get_text_link_block_by_rpd(
+        self,
+        rpd: models.RPDModel,
+        session: orm.Session = None,
+    ) -> models.TextLinkBlockModel:
+        return (
+            session.query(models.TextLinkBlockModel)
+            .filter_by(rpd_id=rpd.id_model)
+            .first()
+        )
+
+    @connection.db_connection
+    def get_dis_links_by_id_rpd(
+        self,
+        id_rpd: int,
+        session: orm.Session = None,
+    ) -> list[models.LinkRPDModel] | None:
+        rpd = (
+            session.query(models.RPDModel)
+            .filter_by(id_model=id_rpd)
+            .first()
+        )
+        if rpd is None:
+            return None
+
+        dis_links = rpd.links
+        return dis_links
+
+    @connection.db_connection
+    def get_descriptions_by_id_ep(
+        self,
+        id_ep: int,
+        session: orm.Session = None,
+    ) -> list[schemes.AbstractDescriptionRPDScheme]:
+        ep = (
+            session
+            .query(models.EducationalProgramModel)
+            .filter_by(id_model=id_ep)
+            .first()
+        )
+        if ep is None:
+            return None
+
+        rpds = ep.rpds
+        if rpds is None:
+            return None
+
+        descriptions = []
+        for rpd in rpds:
+            id_model = rpd.id_model
+            text_link_block = None
+            index = None
+            if rpd.text_link_block is not None:
+                text_link_block = rpd.text_link_block.text
+
+            if rpd.description_rpd is not None:
+                index = rpd.description_rpd.index
+
+            descriptions.append(
+                schemes.AbstractDescriptionRPDScheme(
+                    id_model=id_model,
+                    text_link_block=text_link_block,
+                    index=index,
+                )
+            )
+
+        return descriptions
+
 
 class PDFRPDDAO(BaseDAO):
     model = models.PDFRPDModel
@@ -111,12 +209,40 @@ class PDFRPDDAO(BaseDAO):
     def __init__(self):
         super().__init__(self.model)
 
+    @connection.db_connection
+    def get_by_id_rpd(
+        self,
+        id_rpd: int,
+        session: orm.Session = None,
+    ):
+        return (
+            session.query(models.PDFRPDModel)
+            .filter_by(rpd_id=id_rpd)
+            .first()
+        )
+
 
 class DescriptionEPDAO(BaseDAO):
     model = models.DescriptionEPModel
 
     def __init__(self):
         super().__init__(self.model)
+
+    @connection.db_connection
+    def get_rows_by_ep_id(
+        self,
+        ep_id: int,
+        session: orm.Session = None,
+    ) -> list[models.DescriptionEPModel] | None:
+        description = (
+            session.query(models.DescriptionEPModel)
+            .filter_by(educational_program_id=ep_id)
+            .first()
+        )
+        if description is None:
+            return None
+
+        return description.rows_discipline_table
 
 
 class RowDisciplineTableDAO(BaseDAO):
@@ -128,6 +254,20 @@ class RowDisciplineTableDAO(BaseDAO):
 
 class DescriptionRPDDAO(BaseDAO):
     model = models.DescriptionRPDModel
+
+    def __init__(self):
+        super().__init__(self.model)
+
+
+class TextLinkBlockDAO(BaseDAO):
+    model = models.TextLinkBlockModel
+
+    def __init__(self):
+        super().__init__(self.model)
+
+
+class LinkRPDDAO(BaseDAO):
+    model = models.LinkRPDModel
 
     def __init__(self):
         super().__init__(self.model)

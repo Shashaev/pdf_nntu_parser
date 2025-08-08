@@ -49,7 +49,7 @@ def parsing_rpd_index(edu_prog: models.EducationalProgramModel):
     for global_link in global_all_links:
         if not global_link.endswith('.pdf'):
             logging.error(
-                'Ссылка на РПД не содержит .pdf.' f'{global_link}',
+                f'Ссылка на РПД не содержит ".pdf". {global_link}',
             )
             continue
 
