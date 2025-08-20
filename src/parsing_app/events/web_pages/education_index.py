@@ -26,10 +26,9 @@ def parsing_education_index():
     while now_obj := now_obj.find_next_sibling():
         try:
             number = now_obj.find_next()
-            number_int = int(number.text)
-            if not(3 <= number_int <= 8 or 26 <= number_int <= 27):
-                continue
-
+            # number_int = int(number.text)
+            # if not(3 <= number_int <= 8 or 26 <= number_int <= 27):
+            #     continue
             identifier = number.find_next_sibling()
             specialties = identifier.find_next_sibling()
             education_level = specialties.find_next_sibling()

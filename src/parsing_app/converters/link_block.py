@@ -105,30 +105,29 @@ class LinkBlock:
         response = requests.post(url, headers=headers, json=prompt)
         result = response.json()['result']['alternatives'][0]
         text_result = result['message']['text']
+        links: list[schemes.LinkRPDScheme] = []
         try:
             text_result = text_result.replace('\n', '').replace('```', '')
             json_result = json.loads(text_result)
+            for link_type in json_result:
+                for link_to in json_result[link_type]:
+                    try:
+                        links.append(
+                            schemes.LinkRPDScheme(
+                                link_type=int(link_type),
+                                link_from=base_dis_norm,
+                                link_to=link_to.strip(),
+                            )
+                        )
+                    except Exception as e:
+                        logging.error(
+                            f'{e}\nОшибка конвертации в pydantic.'
+                            f'\nДанные: {json_result[link_type]}'
+                        )
         except Exception as e:
             logging.error(
                 f'{e}\nДекодируемый текст:\n{text_result}'
             )
-
-        links: list[schemes.LinkRPDScheme] = []
-        for link_type in json_result:
-            for link_to in json_result[link_type]:
-                try:
-                    links.append(
-                        schemes.LinkRPDScheme(
-                            link_type=int(link_type),
-                            link_from=base_dis_norm,
-                            link_to=link_to.strip(),
-                        )
-                    )
-                except Exception as e:
-                    logging.error(
-                        f'{e}\nОшибка конвертации в pydantic.'
-                        f'\nДанные: {json_result[link_type]}'
-                    )
 
         return links
 

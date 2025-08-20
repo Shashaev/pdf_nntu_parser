@@ -32,6 +32,9 @@ class BaseDAO:
     @connection.db_connection
     def update(self, pk, session: orm.Session = None, **kwargs):
         model = self.select(pk)
+        if model is None:
+            return
+
         for key in kwargs:
             setattr(model, key, kwargs[key])
 
